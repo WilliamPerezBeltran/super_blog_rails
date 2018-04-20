@@ -1,0 +1,52 @@
+<div class="container">
+    <% @posts.each do |post| %>
+        <div class="centrado" >
+            <div>
+                <h1><%= link_to post.title, post_path(post)%></h1>
+
+            <!-- <p class="font-weight-light small">
+                fecha de creacion: <%= post.user.created_at.to_i %>
+            </p>
+            <p class="font-weight-light small">
+                fecha actual: <%= Time.now.utc.to_i%>
+            </p>
+            <p class="font-weight-light small">
+                resultado: <%= @tiempo_de_creacion = Time.now.utc.to_i-post.user.created_at.to_i %>
+            </p> -->
+
+
+            <% if @tiempo_de_creacion/3600 <1 %>
+                <!-- meda los minutos -->
+                <% @tiempo_de_creacion = @tiempo_de_creacion/60 %>
+                <% if @tiempo_de_creacion == 1 %>
+                    <p class="font-weight-light small">publicado por <%= post.user.email %> hace <%= @tiempo_de_creacion %> minuto </p>
+                <% else %>
+                    <p class="font-weight-light small">publicado por <%= post.user.email %> hace  <%= @tiempo_de_creacion %> minutos </p>
+                <% end %>
+            <% else %>
+                <!-- si son horas -->
+                <% @tiempo_de_creacion = @tiempo_de_creacion/3600 %>
+                <% if @tiempo_de_creacion == 1 %>
+                    <p class="font-weight-light small">publicado por <%= post.user.email %> hace  <%= @tiempo_de_creacion %> hora </p>
+                <% else %>
+                    <p class="font-weight-light small">publicado por <%= post.user.email %> hace  <%= @tiempo_de_creacion %> horas </p>
+                <% end %>
+                
+            <% end %>
+            <!-- muestra solo 250 caracteres en el index -->
+            <p class="text-justify"><%= post.body.truncate(250,:omission => "...") %></p>
+
+
+
+            <% if signed_in? && post.user == current_user  %>
+                <p><span><i class="fas fa-edit"></i></span><span><%= link_to 'Editar', edit_post_path(post) %></span> <span><i class="fas fa-trash-alt"></i></span>  <span><%= link_to 'Eliminar',post_path(post), method: :delete, data:{confirm:'¿Esta seguro de querer eliminar este post?'} %></span></p>
+            <% end %>
+            
+                
+            </div>
+
+        	
+        </div>
+        <br>
+    <% end %>
+</div>

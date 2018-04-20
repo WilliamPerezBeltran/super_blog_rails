@@ -1,0 +1,44 @@
+<div class="container centrado">
+    <div class="centrado"></div>
+    <div class="row">
+        <div>
+            <h1><%= @post.title %></h1>
+            <small>User</small>
+            <p class="text-justify">
+                <%= @post.body %>
+            </p>
+        </div>
+        <br>
+    </div>
+    
+    <% @post.comments.each do |comment| %>
+    <br>
+        <div class="row">
+            <div class="card">
+                <div class="card-header" style="width: 700px;">
+                    <p ><%= @post.user.email %> comentó </p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-justify">
+                        <%= markdown(comment.comment_body) %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <br>
+
+    <% if signed_in?%>
+        <%= form_for [@post, @post.comments.build] do |f| %>
+            <div class="form-group">
+                <%= f.text_area :comment_body, class:"form-control", placeholder:"Agregar comentario" %>
+            </div>
+            <%= f.submit 'Agregar comentario', class:'btn btn-primary btn-block'%>
+        <% end %>
+    <% end %>
+    <div class="row flecha" >
+        <span><%= link_to 'Atras', root_path,class:"fas fa-arrow-circle-left" %></span>
+    </div>
+        
+    
+</div>
